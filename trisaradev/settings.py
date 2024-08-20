@@ -60,6 +60,7 @@ CORS_ALLOWED_ORIGINS = [
     "https://www.trisara.in,"
 ]
 
+
 ROOT_URLCONF = 'trisaradev.urls'
 
 TEMPLATES = [
