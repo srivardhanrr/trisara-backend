@@ -56,8 +56,8 @@ MIDDLEWARE = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",  # SvelteKit development server
-    "trisara.in",
-    "www.trisara.in,"
+    "https://trisara.in",
+    "https://www.trisara.in,"
 ]
 
 ROOT_URLCONF = 'trisaradev.urls'
