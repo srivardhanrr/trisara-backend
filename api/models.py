@@ -27,7 +27,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0)
     amazon_buy_link = models.URLField(max_length=200, blank=True)
     flipkart_buy_link = models.URLField(max_length=200, blank=True)
     zepto_buy_link = models.URLField(max_length=200, blank=True)
@@ -86,7 +86,6 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
-
 
 
 class InstagramPhoto(models.Model):
