@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Category, Product, ProductImage, Collection, KeyFeature
+from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto
 
 
 class KeyFeatureSerializer(serializers.ModelSerializer):
@@ -39,3 +39,9 @@ class CollectionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Collection
         fields = ['id', 'name', 'image', 'description', 'slug', 'products']
+
+
+class InstagramPhotoSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = InstagramPhoto
+        fields = ['id', 'image', 'link', 'description', 'created_at', 'updated_at']

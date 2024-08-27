@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Category, Product, ProductImage, Collection, KeyFeature
+from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto
+
+
+class InstagramPhotoAdmin(admin.ModelAdmin):
+    list_display = ('description', 'created_at', 'updated_at')
+    search_fields = ('description',)
+    list_filter = ('created_at', 'updated_at')
 
 
 class ProductImageInline(admin.TabularInline):
@@ -21,11 +27,11 @@ class CategoryAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-    'id', 'name', 'category', 'dimensions', 'capacity', 'material', 'weight', 'made_in', 'created_at', 'updated_at')
+        'id', 'name', 'category', 'dimensions', 'capacity', 'material', 'weight', 'made_in', 'created_at', 'updated_at')
     list_filter = ('category', 'material', 'made_in', 'created_at')
     search_fields = (
-    'name', 'description', 'dimensions', 'capacity', 'material', 'weight', 'suitable_heat_sources', 'made_in',
-    'key_features')
+        'name', 'description', 'dimensions', 'capacity', 'material', 'weight', 'suitable_heat_sources', 'made_in',
+        'key_features')
     prepopulated_fields = {'slug': ('name',)}
     fieldsets = (
         (None, {
@@ -49,3 +55,4 @@ class CollectionAdmin(admin.ModelAdmin):
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Collection, CollectionAdmin)
+admin.site.register(InstagramPhoto, InstagramPhotoAdmin)

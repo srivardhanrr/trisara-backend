@@ -27,6 +27,11 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
     description = models.TextField()
+    price = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
+    amazon_buy_link = models.URLField(max_length=200, blank=True)
+    flipkart_buy_link = models.URLField(max_length=200, blank=True)
+    zepto_buy_link = models.URLField(max_length=200, blank=True)
+    blinkIt_buy_link = models.URLField(max_length=200, blank=True)
     slug = models.SlugField(unique=True, blank=True)
     dimensions = models.CharField(max_length=100, blank=True)
     capacity = models.CharField(max_length=50, blank=True)
@@ -81,3 +86,15 @@ class Collection(models.Model):
 
     def __str__(self):
         return self.name
+
+
+
+class InstagramPhoto(models.Model):
+    image = models.ImageField(upload_to='instagram/')
+    link = models.URLField(max_length=200)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.description[:50]
