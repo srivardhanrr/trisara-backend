@@ -1,6 +1,7 @@
 from rest_framework import viewsets
-from .models import Category, Product, Collection
-from .serializers import CategorySerializer, ProductSerializer, CollectionSerializer
+from .models import Category, Product, Collection, CookbookCategory, Cookbook
+from .serializers import CategorySerializer, ProductSerializer, CollectionSerializer, CookbookCategorySerializer, \
+    CookbookSerializer
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -18,4 +19,16 @@ class ProductViewSet(viewsets.ReadOnlyModelViewSet):
 class CollectionViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Collection.objects.all()
     serializer_class = CollectionSerializer
+    lookup_field = 'slug'
+
+
+class CookbookCategoryViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = CookbookCategory.objects.all()
+    serializer_class = CookbookCategorySerializer
+    lookup_field = 'slug'
+
+
+class CookbookViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Cookbook.objects.all()
+    serializer_class = CookbookSerializer
     lookup_field = 'slug'
