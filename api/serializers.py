@@ -48,9 +48,6 @@ class InstagramPhotoSerializer(serializers.ModelSerializer):
         fields = ['id', 'image', 'link', 'description', 'created_at', 'updated_at']
 
 
-
-
-
 class IngredientSerializer(serializers.ModelSerializer):
     class Meta:
         model = Ingredient

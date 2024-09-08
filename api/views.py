@@ -1,7 +1,7 @@
 from rest_framework import viewsets
-from .models import Category, Product, Collection, CookbookCategory, Cookbook
+from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto
 from .serializers import CategorySerializer, ProductSerializer, CollectionSerializer, CookbookCategorySerializer, \
-    CookbookSerializer
+    CookbookSerializer, InstagramPhotoSerializer
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
@@ -32,3 +32,8 @@ class CookbookViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Cookbook.objects.all()
     serializer_class = CookbookSerializer
     lookup_field = 'slug'
+
+
+class InstagramPostsViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = InstagramPhoto.objects.all()
+    serializer_class = InstagramPhotoSerializer
