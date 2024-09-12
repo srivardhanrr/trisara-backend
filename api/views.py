@@ -1,12 +1,18 @@
 from rest_framework import viewsets
-from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto
+from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto, Series, Blog
 from .serializers import CategorySerializer, ProductSerializer, CollectionSerializer, CookbookCategorySerializer, \
-    CookbookSerializer, InstagramPhotoSerializer
+    CookbookSerializer, InstagramPhotoSerializer, SeriesSerializer, BlogSerializer
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    lookup_field = 'slug'
+
+
+class SeriesViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Series.objects.all()
+    serializer_class = SeriesSerializer
     lookup_field = 'slug'
 
 
@@ -37,3 +43,10 @@ class CookbookViewSet(viewsets.ReadOnlyModelViewSet):
 class InstagramPostsViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = InstagramPhoto.objects.all()
     serializer_class = InstagramPhotoSerializer
+
+
+class BlogViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = Blog.objects.all().order_by('-created_at')
+    serializer_class = BlogSerializer
+    lookup_field = 'slug'
+

@@ -1,5 +1,7 @@
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.utils.text import slugify
+from django_ckeditor_5.fields import CKEditor5Field
 
 
 class Category(models.Model):
@@ -23,9 +25,31 @@ class Category(models.Model):
         return self.name
 
 
+class Series(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='series/')
+    description = models.TextField()
+    slug = models.SlugField(unique=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        verbose_name_plural = "Series"
+        ordering = ['-created_at']
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
-    category = models.ForeignKey('Category', related_name='products', on_delete=models.CASCADE)
+    category = models.ForeignKey('Category', related_name='products', on_delete=models.SET_NULL, null=True)
+    series = models.ForeignKey('Series', related_name='products', on_delete=models.SET_NULL, blank=True, null=True)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0)
     amazon_buy_link = models.URLField(max_length=200, blank=True)
@@ -33,11 +57,23 @@ class Product(models.Model):
     zepto_buy_link = models.URLField(max_length=200, blank=True)
     blinkIt_buy_link = models.URLField(max_length=200, blank=True)
     slug = models.SlugField(unique=True, blank=True)
-    dimensions = models.CharField(max_length=100, blank=True)
-    capacity = models.CharField(max_length=50, blank=True)
     material = models.CharField(max_length=100, blank=True)
+    diameter = models.CharField(max_length=50, blank=True)
     weight = models.CharField(max_length=50, blank=True)
-    suitable_heat_sources = models.CharField(max_length=100, blank=True)
+    color = models.CharField(max_length=50, blank=True)
+    handle = models.CharField(max_length=100, blank=True)
+    pre_seasoned = models.CharField(max_length=10, blank=True)
+    dishwasher_safe = models.CharField(max_length=10, blank=True)
+    cooktop_compatibility = models.CharField(max_length=100, blank=True)
+    sizes_included = models.CharField(max_length=100, blank=True)
+    bowl_diameter = models.CharField(max_length=50, blank=True)
+    glass_capacity = models.CharField(max_length=50, blank=True)
+    snack_rice_plate_diameter = models.CharField(max_length=50, blank=True)
+    dinner_plate_diameter = models.CharField(max_length=50, blank=True)
+    spoon_length = models.CharField(max_length=50, blank=True)
+    size_included = models.CharField(max_length=50, blank=True)
+    number_of_plates = models.CharField(max_length=20, blank=True)
+    idli_per_plate = models.CharField(max_length=20, blank=True)
     made_in = models.CharField(max_length=100, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -143,3 +179,21 @@ class PreparationStep(models.Model):
 
     class Meta:
         ordering = ['step_number']
+
+
+class Blog(models.Model):
+    title = models.CharField(max_length=200)
+    image = models.ImageField(upload_to='blogs/', blank=True)
+    content = CKEditor5Field('Content', config_name='extends')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    slug = models.SlugField(unique=True, blank=True)
+
+    def __str__(self):
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super().save(*args, **kwargs)
+

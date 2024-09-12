@@ -1,6 +1,9 @@
 from django.contrib import admin
+from django_ckeditor_5.widgets import CKEditor5Widget
+from django import forms
+
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
-    Ingredient, PreparationStep
+    Ingredient, PreparationStep, Series, Blog
 
 
 class InstagramPhotoAdmin(admin.ModelAdmin):
@@ -26,22 +29,29 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class SeriesAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description', 'created_at', 'updated_at')
+    search_fields = ('name', 'description')
+    list_filter = ('created_at',)
+    prepopulated_fields = {'slug': ('name',)}
+
+
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'category', 'dimensions', 'capacity', 'material', 'weight', 'made_in', 'created_at', 'updated_at')
+        'name', 'category', 'material', 'weight', 'made_in', 'created_at', 'updated_at')
     list_filter = ('category', 'material', 'made_in', 'created_at')
     search_fields = (
-        'name', 'description', 'dimensions', 'capacity', 'material', 'weight', 'suitable_heat_sources', 'made_in',
+        'name', 'description', 'material', 'weight', 'made_in',
         'key_features')
     prepopulated_fields = {'slug': ('name',)}
-    fieldsets = (
-        (None, {
-            'fields': ('name', 'slug', 'category', 'description')
-        }),
-        ('Product Details', {
-            'fields': ('dimensions', 'capacity', 'material', 'weight', 'suitable_heat_sources', 'made_in')
-        }),
-    )
+    # fieldsets = (
+    #     (None, {
+    #         'fields': ('name', 'slug', 'category', ',  'description')
+    #     }),
+    #     ('Product Details', {
+    #         'fields': ('material', 'weight', 'made_in')
+    #     }),
+    # )
     inlines = [ProductImageInline, KeyFeatureInline]
 
 
@@ -91,7 +101,41 @@ class PreparationStepAdmin(admin.ModelAdmin):
     ordering = ('cookbook', 'step_number')
 
 
-# Register models
+class BlogAdminForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        fields = '__all__'
+        widgets = {
+            'content': CKEditor5Widget(
+                config_name='extends',
+                attrs={'class': 'django_ckeditor_5'},  # Use the config named 'extends' that we defined in settings.py
+            )
+        }
+
+
+class BlogAdmin(admin.ModelAdmin):
+    form = BlogAdminForm
+    list_display = ('title', 'created_at', 'updated_at')
+    search_fields = ('title', 'content')
+    list_filter = ('created_at', 'updated_at')
+    readonly_fields = ('created_at', 'updated_at')
+    prepopulated_fields = {'slug': ('title',)}
+    fieldsets = (
+        (None, {
+            'fields': ('title', 'image', 'content', 'slug')
+        }),
+        ('Date Information', {
+            'fields': ('created_at', 'updated_at'),
+            'classes': ('collapse',)
+        }),
+    )
+
+    def get_readonly_fields(self, request, obj=None):
+        if obj:  # editing an existing object
+            return self.readonly_fields + ('created_at',)
+        return self.readonly_fields
+
+
 admin.site.register(CookbookCategory, CookbookCategoryAdmin)
 admin.site.register(Cookbook, CookbookAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
@@ -100,3 +144,5 @@ admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Collection, CollectionAdmin)
 admin.site.register(InstagramPhoto, InstagramPhotoAdmin)
+admin.site.register(Series, SeriesAdmin)
+admin.site.register(Blog, BlogAdmin)
