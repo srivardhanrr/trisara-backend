@@ -122,7 +122,7 @@ class BlogAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('title',)}
     fieldsets = (
         (None, {
-            'fields': ('title', 'image', 'content', 'slug')
+            'fields': ('title', 'image', 'description', 'content', 'slug')
         }),
         ('Date Information', {
             'fields': ('created_at', 'updated_at'),
