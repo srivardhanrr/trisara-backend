@@ -48,20 +48,11 @@ class SeriesAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'category', 'material', 'weight', 'made_in', 'created_at', 'updated_at')
-    list_filter = ('category', 'material', 'made_in', 'created_at')
+        'name', 'category', 'created_at', 'updated_at')
+    list_filter = ('category', 'created_at')
     search_fields = (
-        'name', 'description', 'material', 'weight', 'made_in',
-        'key_features')
+        'name', 'description')
     prepopulated_fields = {'slug': ('name',)}
-    # fieldsets = (
-    #     (None, {
-    #         'fields': ('name', 'slug', 'category', ',  'description')
-    #     }),
-    #     ('Product Details', {
-    #         'fields': ('material', 'weight', 'made_in')
-    #     }),
-    # )
     inlines = [ProductImageInline, KeyFeatureInline, UsageInstructionInline, SpecificationInline]
 
 
@@ -148,8 +139,6 @@ class BlogAdmin(admin.ModelAdmin):
 
 admin.site.register(CookbookCategory, CookbookCategoryAdmin)
 admin.site.register(Cookbook, CookbookAdmin)
-# admin.site.register(Ingredient, IngredientAdmin)
-# admin.site.register(PreparationStep, PreparationStepAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Collection, CollectionAdmin)
