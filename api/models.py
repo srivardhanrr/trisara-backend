@@ -1,4 +1,3 @@
-from ckeditor_uploader.fields import RichTextUploadingField
 from django.db import models
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
@@ -56,6 +55,8 @@ class Product(models.Model):
     flipkart_buy_link = models.URLField(max_length=200, blank=True)
     zepto_buy_link = models.URLField(max_length=200, blank=True)
     blinkIt_buy_link = models.URLField(max_length=200, blank=True)
+    new_badge = models.BooleanField(default=False)
+    best_seller = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
