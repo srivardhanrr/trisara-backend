@@ -3,7 +3,7 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 from django import forms
 
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
-    Ingredient, PreparationStep, Series, Blog
+    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification
 
 
 class InstagramPhotoAdmin(admin.ModelAdmin):
@@ -19,6 +19,16 @@ class ProductImageInline(admin.TabularInline):
 
 class KeyFeatureInline(admin.TabularInline):
     model = KeyFeature
+    extra = 1
+
+
+class UsageInstructionInline(admin.TabularInline):
+    model = UsageInstruction
+    extra = 1
+
+
+class SpecificationInline(admin.TabularInline):
+    model = Specification
     extra = 1
 
 
@@ -52,7 +62,7 @@ class ProductAdmin(admin.ModelAdmin):
     #         'fields': ('material', 'weight', 'made_in')
     #     }),
     # )
-    inlines = [ProductImageInline, KeyFeatureInline]
+    inlines = [ProductImageInline, KeyFeatureInline, UsageInstructionInline, SpecificationInline]
 
 
 class CollectionAdmin(admin.ModelAdmin):
@@ -138,8 +148,8 @@ class BlogAdmin(admin.ModelAdmin):
 
 admin.site.register(CookbookCategory, CookbookCategoryAdmin)
 admin.site.register(Cookbook, CookbookAdmin)
-admin.site.register(Ingredient, IngredientAdmin)
-admin.site.register(PreparationStep, PreparationStepAdmin)
+# admin.site.register(Ingredient, IngredientAdmin)
+# admin.site.register(PreparationStep, PreparationStepAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(Collection, CollectionAdmin)

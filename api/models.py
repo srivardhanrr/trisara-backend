@@ -90,6 +90,15 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
 
+class Specification(models.Model):
+    product = models.ForeignKey(Product, related_name='specifications', on_delete=models.CASCADE)
+    label = models.CharField(max_length=100, blank=True)
+    value = models.CharField(max_length=200, blank=True)
+
+    def __str__(self):
+        return self.label
+
+
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
     image = models.ImageField(upload_to='products/')
@@ -101,6 +110,14 @@ class KeyFeature(models.Model):
 
     def __str__(self):
         return self.feature
+
+
+class UsageInstruction(models.Model):
+    product = models.ForeignKey(Product, related_name='instructions', on_delete=models.CASCADE)
+    instruction = models.CharField(max_length=200)
+
+    def __str__(self):
+        return self.instruction
 
 
 class Collection(models.Model):
