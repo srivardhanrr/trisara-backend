@@ -6,7 +6,7 @@ from django_ckeditor_5.fields import CKEditor5Field
 class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='categories/')
-    description = models.TextField()
+    description = models.TextField(blank=True)
     slug = models.SlugField(unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -47,6 +47,7 @@ class Series(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=200)
+    set = models.CharField(max_length=100, blank=True)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.SET_NULL, null=True)
     series = models.ForeignKey('Series', related_name='products', on_delete=models.SET_NULL, blank=True, null=True)
     description = models.TextField()
