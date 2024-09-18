@@ -1,11 +1,14 @@
 from django.db import models
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
+from django_resized import ResizedImageField
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='categories/')
+    image = ResizedImageField(size=[1000, 1000], upload_to='categories/', blank=True,
+                              force_format='WEBP', quality=75, crop=['middle', 'center'])
     description = models.TextField(blank=True)
     slug = models.SlugField(unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -26,7 +29,8 @@ class Category(models.Model):
 
 class Series(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='series/')
+    image = ResizedImageField(size=[1080, 1080], upload_to='series/', blank=True,
+                                      force_format='WEBP', quality=90)
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -103,7 +107,8 @@ class UsageInstruction(models.Model):
 
 class Collection(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='collections/')
+    image = ResizedImageField(size=[1080, 1080], upload_to='collections/', blank=True,
+                              force_format='WEBP', quality=75, crop=['middle', 'center'])
     description = models.TextField()
     products = models.ManyToManyField(Product, related_name='collections')
     slug = models.SlugField(unique=True, blank=True)
@@ -123,7 +128,8 @@ class Collection(models.Model):
 
 
 class InstagramPhoto(models.Model):
-    image = models.ImageField(upload_to='instagram/')
+    image = ResizedImageField(size=[1080, 1080], upload_to='instagram/', blank=True,
+                              force_format='WEBP', quality=75)
     link = models.URLField(max_length=200)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -136,7 +142,8 @@ class InstagramPhoto(models.Model):
 class CookbookCategory(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True, blank=True)
-    image = models.ImageField(upload_to='cookbook_categories/', blank=True, null=True)
+    image = ResizedImageField(size=[1080, 1080], upload_to='cookbook_categories/', blank=True,
+                              force_format='WEBP', quality=75, crop=['middle', 'center'])
 
     def __str__(self):
         return self.name
@@ -150,7 +157,8 @@ class CookbookCategory(models.Model):
 class Cookbook(models.Model):
     title = models.CharField(max_length=200)
     slug = models.SlugField(unique=True, blank=True)
-    image = models.ImageField(upload_to='cookbooks/', blank=True)
+    image = ResizedImageField(size=[1080, 1080], upload_to='cookbooks/', blank=True,
+                              force_format='WEBP', quality=75)
     category = models.ForeignKey(CookbookCategory, on_delete=models.CASCADE, related_name='cookbooks')
     description = models.TextField(blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -181,7 +189,8 @@ class PreparationStep(models.Model):
 
 class Blog(models.Model):
     title = models.CharField(max_length=200)
-    image = models.ImageField(upload_to='blogs/', blank=True)
+    image = ResizedImageField(size=[1080, 1080], upload_to='blogs/', blank=True,
+                              force_format='WEBP', quality=75)
     description = models.TextField(blank=True)
     content = CKEditor5Field('Content', config_name='extends')
     created_at = models.DateTimeField(auto_now_add=True)
@@ -195,4 +204,3 @@ class Blog(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
-
