@@ -75,6 +75,16 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
 
+class ProductVariant(models.Model):
+    product = models.ForeignKey(Product, related_name='variants', on_delete=models.CASCADE)
+    variant = models.CharField(max_length=200)
+    image = ResizedImageField(size=[1000, 1000], upload_to='products/variants/', blank=True,
+                              force_format='WEBP', quality=90)
+
+    def __str__(self):
+        return self.variant
+
+
 class Specification(models.Model):
     product = models.ForeignKey(Product, related_name='specifications', on_delete=models.CASCADE)
     label = models.CharField(max_length=100, blank=True)
@@ -86,7 +96,8 @@ class Specification(models.Model):
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, related_name='images', on_delete=models.CASCADE)
-    image = models.ImageField(upload_to='products/')
+    image = ResizedImageField(size=[1000, 1000], upload_to='products/', blank=True,
+                              force_format='WEBP', quality=90)
 
 
 class KeyFeature(models.Model):

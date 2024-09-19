@@ -3,7 +3,7 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 from django import forms
 
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
-    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification
+    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant
 
 
 class InstagramPhotoAdmin(admin.ModelAdmin):
@@ -14,6 +14,11 @@ class InstagramPhotoAdmin(admin.ModelAdmin):
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
+    extra = 1
+
+
+class ProductVariantInline(admin.TabularInline):
+    model = ProductVariant
     extra = 1
 
 
@@ -53,7 +58,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = (
         'name', 'description')
     prepopulated_fields = {'slug': ('name',)}
-    inlines = [ProductImageInline, KeyFeatureInline, UsageInstructionInline, SpecificationInline]
+    inlines = [ProductImageInline, ProductVariantInline, KeyFeatureInline, UsageInstructionInline, SpecificationInline]
 
 
 class CollectionAdmin(admin.ModelAdmin):

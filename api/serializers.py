@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
-    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification
+    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant
 
 
 class KeyFeatureSerializer(serializers.ModelSerializer):
@@ -27,11 +27,18 @@ class ProductImageSerializer(serializers.ModelSerializer):
         fields = ['id', 'image']
 
 
+class ProductVariantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductVariant
+        fields = '__all__'
+
+
 class ProductSerializer(serializers.ModelSerializer):
     features = KeyFeatureSerializer(many=True, read_only=True)
     images = ProductImageSerializer(many=True, read_only=True)
     instructions = UsageInstructionSerializer(many=True, read_only=True)
     specifications = SpecificationSerializer(many=True, read_only=True)
+    variants = ProductVariantSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
