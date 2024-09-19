@@ -8,12 +8,16 @@ class HeroImage(models.Model):
     image = ResizedImageField(upload_to='hero/',
                               force_format='WEBP', quality=90)
     title = models.CharField(max_length=200)
+    ordering = models.PositiveIntegerField(default=0)
     link = models.URLField(max_length=200, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        ordering = ['ordering']
 
 
 class Category(models.Model):
