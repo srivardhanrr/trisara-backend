@@ -1,7 +1,12 @@
 from rest_framework import viewsets
-from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto, Series, Blog
+from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto, Series, Blog, HeroImage
 from .serializers import CategorySerializer, ProductSerializer, CollectionSerializer, CookbookCategorySerializer, \
-    CookbookSerializer, InstagramPhotoSerializer, SeriesSerializer, BlogSerializer
+    CookbookSerializer, InstagramPhotoSerializer, SeriesSerializer, BlogSerializer, HeroImageSerializer
+
+
+class HeroImageViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HeroImage.objects.all()
+    serializer_class = HeroImageSerializer
 
 
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):

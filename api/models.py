@@ -4,6 +4,18 @@ from django_ckeditor_5.fields import CKEditor5Field
 from django_resized import ResizedImageField
 
 
+class HeroImage(models.Model):
+    image = ResizedImageField(upload_to='hero/',
+                              force_format='WEBP', quality=90)
+    title = models.CharField(max_length=200)
+    link = models.URLField(max_length=200, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100)
     image = models.ImageField(upload_to='categories/')
@@ -30,7 +42,7 @@ class Category(models.Model):
 class Series(models.Model):
     name = models.CharField(max_length=100)
     image = ResizedImageField(size=[1080, 1080], upload_to='series/', blank=True,
-                                      force_format='WEBP', quality=90)
+                              force_format='WEBP', quality=90)
     description = models.TextField()
     slug = models.SlugField(unique=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)

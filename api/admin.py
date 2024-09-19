@@ -3,13 +3,17 @@ from django_ckeditor_5.widgets import CKEditor5Widget
 from django import forms
 
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
-    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant
+    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant, HeroImage
 
 
 class InstagramPhotoAdmin(admin.ModelAdmin):
     list_display = ('description', 'created_at', 'updated_at')
     search_fields = ('description',)
     list_filter = ('created_at', 'updated_at')
+
+
+class HeroImageAdmin(admin.ModelAdmin):
+    list_display = ('title', 'created_at', 'updated_at')
 
 
 class ProductImageInline(admin.TabularInline):

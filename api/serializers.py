@@ -1,6 +1,12 @@
 from rest_framework import serializers
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
-    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant
+    Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant, HeroImage
+
+
+class HeroImageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = HeroImage
+        fields = ['image', 'title', 'created_at', 'updated_at']
 
 
 class KeyFeatureSerializer(serializers.ModelSerializer):
