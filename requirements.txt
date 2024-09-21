@@ -3,3 +3,4 @@ django
 Pillow
 django-cors-headers
 django-ckeditor-5
+django_resized

@@ -54,3 +54,4 @@ class BlogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Blog.objects.all().order_by('-created_at')
     serializer_class = BlogSerializer
     lookup_field = 'slug'
+
