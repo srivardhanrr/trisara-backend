@@ -65,12 +65,22 @@ class Series(models.Model):
         return self.name
 
 
+class ProductInfographic(models.Model):
+    name = models.CharField(max_length=100)
+    image = ResizedImageField(size=[800, 800], upload_to='infographics/', blank=True,
+                              force_format='WEBP', quality=75, crop=['middle', 'center'])
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     name = models.CharField(max_length=200)
     set = models.CharField(max_length=100, blank=True)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.SET_NULL, null=True)
     series = models.ForeignKey('Series', related_name='products', on_delete=models.SET_NULL, blank=True, null=True)
     description = models.TextField()
+    infographics = models.ManyToManyField(ProductInfographic, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0)
     buy_link = models.URLField(max_length=200, blank=True)
     new_badge = models.BooleanField(default=False)
@@ -89,6 +99,7 @@ class Product(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
 
 
 class ProductVariant(models.Model):
