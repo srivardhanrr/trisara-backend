@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_ckeditor_5',
     'api',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -43,6 +44,10 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+}
 
 CORS_ORIGIN_ALLOW_ALL = True
 

@@ -101,7 +101,6 @@ class Product(models.Model):
         super().save(*args, **kwargs)
 
 
-
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, related_name='variants', on_delete=models.CASCADE)
     variant = models.CharField(max_length=200)
@@ -242,3 +241,5 @@ class Blog(models.Model):
         if not self.slug:
             self.slug = slugify(self.title)
         super().save(*args, **kwargs)
+
+
