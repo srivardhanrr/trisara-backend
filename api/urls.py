@@ -1,7 +1,7 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from .views import CategoryViewSet, ProductViewSet, CollectionViewSet, CookbookCategoryViewSet, CookbookViewSet, \
-    InstagramPostsViewSet, SeriesViewSet, BlogViewSet, HeroImageViewSet
+    InstagramPostsViewSet, SeriesViewSet, BlogViewSet, HeroImageViewSet, HomePageSettingsViewSet
 
 router = DefaultRouter()
 router.register(r'categories', CategoryViewSet)
@@ -13,6 +13,7 @@ router.register(r'instagram', InstagramPostsViewSet)
 router.register(r'series', SeriesViewSet)
 router.register(r'blogs', BlogViewSet)
 router.register(r'hero-images', HeroImageViewSet)
+router.register(r'home-page-settings', HomePageSettingsViewSet, basename='home-page-settings')
 
 
 urlpatterns = [

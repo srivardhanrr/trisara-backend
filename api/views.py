@@ -1,7 +1,12 @@
 from rest_framework import viewsets
-from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto, Series, Blog, HeroImage
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from .models import Category, Product, Collection, CookbookCategory, Cookbook, InstagramPhoto, Series, Blog, HeroImage, \
+    HomePageSettings
 from .serializers import CategorySerializer, ProductSerializer, CollectionSerializer, CookbookCategorySerializer, \
-    CookbookSerializer, InstagramPhotoSerializer, SeriesSerializer, BlogSerializer, HeroImageSerializer
+    CookbookSerializer, InstagramPhotoSerializer, SeriesSerializer, BlogSerializer, HeroImageSerializer, \
+    HomePageSettingsSerializer
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 
@@ -59,3 +64,13 @@ class BlogViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Blog.objects.all().order_by('-created_at')
     serializer_class = BlogSerializer
     lookup_field = 'slug'
+
+
+class HomePageSettingsViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = HomePageSettings.objects.all()
+    serializer_class = HomePageSettingsSerializer
+
+    def list(self, request):
+        instance = self.get_queryset().first()
+        serializer = self.get_serializer(instance)
+        return Response(serializer.data)

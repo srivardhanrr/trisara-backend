@@ -4,7 +4,7 @@ from django import forms
 
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
     Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant, HeroImage, \
-    ProductInfographic
+    ProductInfographic, HomePageSettings
 
 
 class InstagramPhotoAdmin(admin.ModelAdmin):
@@ -151,6 +151,13 @@ class BlogAdmin(admin.ModelAdmin):
         return self.readonly_fields
 
 
+class HomePageSettingsAdmin(admin.ModelAdmin):
+    list_display = ('collection_1', 'collection_2')
+
+    def has_add_permission(self, request):
+        return not HomePageSettings.objects.exists()
+
+
 admin.site.register(CookbookCategory, CookbookCategoryAdmin)
 admin.site.register(Cookbook, CookbookAdmin)
 admin.site.register(Category, CategoryAdmin)
@@ -161,3 +168,4 @@ admin.site.register(Series, SeriesAdmin)
 admin.site.register(Blog, BlogAdmin)
 admin.site.register(HeroImage, HeroImageAdmin)
 admin.site.register(ProductInfographic, ProductInfographicAdmin)
+admin.site.register(HomePageSettings, HomePageSettingsAdmin)

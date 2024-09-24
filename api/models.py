@@ -1,3 +1,4 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from django.utils.text import slugify
 from django_ckeditor_5.fields import CKEditor5Field
@@ -7,9 +8,9 @@ from django_resized import ResizedImageField
 class HeroImage(models.Model):
     image = ResizedImageField(upload_to='hero/',
                               force_format='WEBP', quality=90)
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=400)
     ordering = models.PositiveIntegerField(default=0)
-    link = models.URLField(max_length=200, blank=True)
+    link = models.URLField(max_length=400, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -75,14 +76,14 @@ class ProductInfographic(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=400)
     set = models.CharField(max_length=100, blank=True)
     category = models.ForeignKey('Category', related_name='products', on_delete=models.SET_NULL, null=True)
     series = models.ForeignKey('Series', related_name='products', on_delete=models.SET_NULL, blank=True, null=True)
     description = models.TextField()
     infographics = models.ManyToManyField(ProductInfographic, blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2, blank=True, default=0)
-    buy_link = models.URLField(max_length=200, blank=True)
+    buy_link = models.URLField(max_length=400, blank=True)
     new_badge = models.BooleanField(default=False)
     best_seller = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, blank=True)
@@ -103,7 +104,7 @@ class Product(models.Model):
 
 class ProductVariant(models.Model):
     product = models.ForeignKey(Product, related_name='variants', on_delete=models.CASCADE)
-    variant = models.CharField(max_length=200)
+    variant = models.CharField(max_length=400)
     image = ResizedImageField(size=[1000, 1000], upload_to='products/variants/', blank=True,
                               force_format='WEBP', quality=90)
 
@@ -114,7 +115,7 @@ class ProductVariant(models.Model):
 class Specification(models.Model):
     product = models.ForeignKey(Product, related_name='specifications', on_delete=models.CASCADE)
     label = models.CharField(max_length=100, blank=True)
-    value = models.CharField(max_length=200, blank=True)
+    value = models.CharField(max_length=400, blank=True)
 
     def __str__(self):
         return self.label
@@ -128,7 +129,7 @@ class ProductImage(models.Model):
 
 class KeyFeature(models.Model):
     product = models.ForeignKey(Product, related_name='features', on_delete=models.CASCADE)
-    feature = models.CharField(max_length=200)
+    feature = models.CharField(max_length=400)
 
     def __str__(self):
         return self.feature
@@ -136,7 +137,7 @@ class KeyFeature(models.Model):
 
 class UsageInstruction(models.Model):
     product = models.ForeignKey(Product, related_name='instructions', on_delete=models.CASCADE)
-    instruction = models.CharField(max_length=200)
+    instruction = models.CharField(max_length=400)
 
     def __str__(self):
         return self.instruction
@@ -167,10 +168,14 @@ class Collection(models.Model):
 class InstagramPhoto(models.Model):
     image = ResizedImageField(size=[1080, 1080], upload_to='instagram/', blank=True,
                               force_format='WEBP', quality=75)
-    link = models.URLField(max_length=200)
+    link = models.URLField(max_length=400)
+    ordering = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     description = models.TextField(blank=True)
+
+    class Meta:
+        ordering = ['ordering']
 
     def __str__(self):
         return self.description[:50]
@@ -192,7 +197,7 @@ class CookbookCategory(models.Model):
 
 
 class Cookbook(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=400)
     slug = models.SlugField(unique=True, blank=True)
     image = ResizedImageField(size=[1080, 1080], upload_to='cookbooks/', blank=True,
                               force_format='WEBP', quality=75)
@@ -225,7 +230,7 @@ class PreparationStep(models.Model):
 
 
 class Blog(models.Model):
-    title = models.CharField(max_length=200)
+    title = models.CharField(max_length=400)
     image = ResizedImageField(size=[1080, 1080], upload_to='blogs/', blank=True,
                               force_format='WEBP', quality=75)
     description = models.TextField(blank=True)
@@ -243,3 +248,21 @@ class Blog(models.Model):
         super().save(*args, **kwargs)
 
 
+class HomePageSettings(models.Model):
+    collection_1 = models.ForeignKey(Collection, on_delete=models.SET_NULL, related_name='collection_1', null=True)
+    collection_2 = models.ForeignKey(Collection, on_delete=models.SET_NULL, related_name='collection_2', null=True)
+
+    class Meta:
+        verbose_name = 'Home Page Settings'
+        verbose_name_plural = 'Home Page Settings'
+
+    def clean(self):
+        if HomePageSettings.objects.exists() and not self.pk:
+            raise ValidationError("You can only have one Home Page Settings instance.")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return "Home Page Settings"

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Category, Product, ProductImage, Collection, KeyFeature, InstagramPhoto, CookbookCategory, Cookbook, \
     Ingredient, PreparationStep, Series, Blog, UsageInstruction, Specification, ProductVariant, HeroImage, \
-    ProductInfographic
+    ProductInfographic, HomePageSettings
 
 
 class HeroImageSerializer(serializers.ModelSerializer):
@@ -123,3 +123,12 @@ class BlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = Blog
         fields = ['id', 'title', 'image', 'description', 'content', 'created_at', 'updated_at', 'slug']
+
+
+class HomePageSettingsSerializer(serializers.ModelSerializer):
+    collection_1 = CollectionSerializer()
+    collection_2 = CollectionSerializer()
+
+    class Meta:
+        model = HomePageSettings
+        fields = ['collection_1', 'collection_2']
