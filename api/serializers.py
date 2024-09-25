@@ -7,7 +7,7 @@ from .models import Category, Product, ProductImage, Collection, KeyFeature, Ins
 class HeroImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroImage
-        fields = ['image', 'title', 'created_at', 'updated_at']
+        fields = ['image', 'title', 'link', 'created_at', 'updated_at']
 
 
 class KeyFeatureSerializer(serializers.ModelSerializer):
@@ -128,7 +128,8 @@ class BlogSerializer(serializers.ModelSerializer):
 class HomePageSettingsSerializer(serializers.ModelSerializer):
     collection_1 = CollectionSerializer()
     collection_2 = CollectionSerializer()
+    hero_images = HeroImageSerializer(many=True)
 
     class Meta:
         model = HomePageSettings
-        fields = ['collection_1', 'collection_2']
+        fields = ['collection_1', 'collection_2', 'hero_images']

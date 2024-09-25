@@ -10,7 +10,7 @@ class HeroImage(models.Model):
                               force_format='WEBP', quality=90)
     title = models.CharField(max_length=400)
     ordering = models.PositiveIntegerField(default=0)
-    link = models.URLField(max_length=400, blank=True)
+    link = models.CharField(max_length=400, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -251,6 +251,7 @@ class Blog(models.Model):
 class HomePageSettings(models.Model):
     collection_1 = models.ForeignKey(Collection, on_delete=models.SET_NULL, related_name='collection_1', null=True)
     collection_2 = models.ForeignKey(Collection, on_delete=models.SET_NULL, related_name='collection_2', null=True)
+    hero_images = models.ManyToManyField(HeroImage, blank=True)
 
     class Meta:
         verbose_name = 'Home Page Settings'
