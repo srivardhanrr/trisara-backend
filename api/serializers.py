@@ -13,13 +13,13 @@ class HeroImageSerializer(serializers.ModelSerializer):
 class KeyFeatureSerializer(serializers.ModelSerializer):
     class Meta:
         model = KeyFeature
-        fields = ['feature']
+        fields = ['feature', 'description']
 
 
 class UsageInstructionSerializer(serializers.ModelSerializer):
     class Meta:
         model = UsageInstruction
-        fields = ['instruction']
+        fields = ['instruction', 'description']
 
 
 class SpecificationSerializer(serializers.ModelSerializer):
