@@ -8,6 +8,7 @@ from django_resized import ResizedImageField
 class HeroImage(models.Model):
     image = ResizedImageField(upload_to='hero/',
                               force_format='WEBP', quality=90)
+    mobile_image = ResizedImageField(upload_to='hero/', force_format='WEBP', quality=90, blank=True)
     title = models.CharField(max_length=400)
     ordering = models.PositiveIntegerField(default=0)
     link = models.CharField(max_length=400, blank=True)

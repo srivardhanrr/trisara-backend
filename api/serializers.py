@@ -7,7 +7,7 @@ from .models import Category, Product, ProductImage, Collection, KeyFeature, Ins
 class HeroImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = HeroImage
-        fields = ['image', 'title', 'link', 'created_at', 'updated_at']
+        fields = ['image', 'mobile_image', 'title', 'link', 'created_at', 'updated_at']
 
 
 class KeyFeatureSerializer(serializers.ModelSerializer):
